@@ -5,9 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use GuzzleHttp\Client;
 
-require '../vendor/autoload.php';
 
 class LoginController extends Controller
 {
@@ -17,7 +15,7 @@ class LoginController extends Controller
         $response = $this->getAPIresponseGuzzle("admin");
         //$response= $response->getBody();
         echo $response->getStatusCode();
-    
+        echo $response->getBody();
 
     }
    
