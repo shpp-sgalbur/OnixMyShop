@@ -6,8 +6,61 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
+use GuzzleHttp\Client;
+
+require '../vendor/autoload.php';
 
 class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
+    
+    
+protected function getAPIresponse($path) {
+        $curl = curl_init();
+
+        $curl = curl_init();
+
+        curl_setopt_array($curl, array(
+          CURLOPT_URL => $path,
+          CURLOPT_RETURNTRANSFER => true,
+          CURLOPT_ENCODING => "",
+          CURLOPT_MAXREDIRS => 10,
+          CURLOPT_TIMEOUT => 0,
+          CURLOPT_FOLLOWLOCATION => true,
+          CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+          CURLOPT_CUSTOMREQUEST => "GET",
+          CURLOPT_HTTPHEADER => array(
+            "Accept: application/json",
+            "X-XSRF-TOKEN: ".$_COOKIE['XSRF-TOKEN'],
+            "Referer: localhost",
+            "Cookie: XSRF-TOKEN=".$_COOKIE['XSRF-TOKEN']."; laravel_session=".$_COOKIE['laravel_session']
+
+          ),
+        ));
+
+        $response = curl_exec($curl);
+
+        curl_close($curl);
+        return $response;
+        
+        
+    }
+    public function getAPIresponseGuzzle($route){
+            $client = new Client([  
+                'base_uri' => env('APP_HOST'), 
+                'cookies' => true
+            ]);        
+              
+        $response = $client->request('get','api/'.$route, 
+                [
+                'headers' => [
+                                "Accept" => "application/json",
+                                'X-XSRF-TOKEN' => $_COOKIE['XSRF-TOKEN'],                           
+                                "Referer" => "localhost",
+                                'Cookie' => "XSRF-TOKEN=".$_COOKIE['XSRF-TOKEN']."; laravel_session=".$_COOKIE['laravel_session']
+                              ]
+               
+                ]);  
+                return $response;
+        }
 }
