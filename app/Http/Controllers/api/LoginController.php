@@ -4,16 +4,19 @@ namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+//use Illuminate\Support\Facades\Auth;
+//use Illuminate\Support\Facades\DB;
 
 class LoginController extends Controller
 {
-    public function index(Request $request) {
-       $user = Auth::user();
-       $user_id = $user->id;
-        $role_id = $user->id;
-        $name = $user->name;
-        $token = $user->remember_token;
-        $json = json_encode(['token'=>$token,'id'=> $user_id, 'name'=>$name]);
-        return $json;
+    public function index() {
+       
+        $role = $this->getRoleName();
+            if($role == 'superAdmin'){
+                return view('admin');
+            }
+        
+        return 'У вас нет прав доступа';
     }
-}
+ 
+}                                                          

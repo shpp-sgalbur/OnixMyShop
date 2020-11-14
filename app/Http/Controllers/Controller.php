@@ -8,6 +8,7 @@ use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 require '../vendor/autoload.php';
 
@@ -65,5 +66,13 @@ protected function getAPIresponse($path) {
                 return $response;
         }
         
-        
+        protected function getRoleName() {
+            $role_id = Auth::user()->role_id;        
+            if($role_id){                
+                $role_name = DB::table('roles')->find($role_id)->name;
+                return $role_name;
+            } 
+            return '';
+            
+        }
 }
