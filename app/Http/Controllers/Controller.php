@@ -7,6 +7,7 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
 use GuzzleHttp\Client;
+use Illuminate\Support\Facades\Auth;
 
 require '../vendor/autoload.php';
 
@@ -45,7 +46,7 @@ protected function getAPIresponse($path) {
         
         
     }
-    public function getAPIresponseGuzzle($route){
+    protected function getAPIresponseGuzzle($route){
             $client = new Client([  
                 'base_uri' => env('APP_HOST'), 
                 'cookies' => true
@@ -63,4 +64,6 @@ protected function getAPIresponse($path) {
                 ]);  
                 return $response;
         }
+        
+        
 }
