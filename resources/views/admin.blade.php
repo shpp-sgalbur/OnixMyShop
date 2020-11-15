@@ -11,6 +11,7 @@
                 @if($route == 'admin')
                     <x-jet-welcome />
                 @endif
+                
                 @if($route == 'users')
                     @include('users')                    
                 @endif

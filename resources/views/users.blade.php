@@ -1,8 +1,13 @@
 @include('admin.header')
 
+<div class="mt-8 text-2xl">
+    <b>Users</b>
+        
+        
+    </div>
 <div class="bg-gray-200 bg-opacity-25 grid grid-cols-1 md:grid-cols-2">
     
-
+    
     <table class="table">
         <thead>
           <tr>
@@ -23,8 +28,8 @@
                     <td>
                         <form method="post" action="{{route('user_edit',['id'=>$user->id])}}">
                             @csrf
-                            <input type="submit" name="edit{{$user->id}}" value="edit">
-                            <input type="submit" name="delete{{$user->id}}" value="delete">
+                            <input type="submit" class="btn btn-success" name="edit{{$user->id}}" value="edit">
+                            <input type="submit" class="btn btn-danger" name="delete{{$user->id}}" value="delete">
                         </form>
                     </td>
                 </tr>
