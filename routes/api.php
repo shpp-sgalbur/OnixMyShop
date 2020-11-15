@@ -2,7 +2,8 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\UserController;
+use App\Http\Controllers\api\UserControllerApi;
+use App\Http\Controllers\api\LoginControllerApi;
 
 
 /*
@@ -16,9 +17,14 @@ use App\Http\Controllers\UserController;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    
-    dd($request->user());
-    return $request->user();
+Route::middleware('auth:sanctum')->get('/users', [UserControllerApi::class,'index']);
+
+Route::middleware('auth:sanctum')->get('/admin', [LoginControllerApi::class,'index']);
+//Route::prefix('sanctum')->namespace('API')->group(function() {
+//    Route::post('register',[LoginController::class,'register']);
+//    Route::post('login',[LoginController::class,'register']);
+//    Route::post('token', [LoginController::class,'token']);
+//});
+Route::middleware('auth:sanctum')->get('/name', function (Request $request) {
+    return response()->json(['name' => $request->user()->name]);
 });
-Route::middleware('auth:sanctum')->get('/admin', [App\Http\Controllers\api\LoginController::class,'index']);
