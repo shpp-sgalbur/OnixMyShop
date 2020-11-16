@@ -14,7 +14,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        $response = $this->getAPIresponseGuzzle("users");
+        $response = $this->getAPIresponseGuzzle('get',"users");
         $res = json_decode($response->getBody()) ;        
         if($response->getStatusCode() == '200'){
             return view('admin', ['route'=>'users', 'users'=>$res, 'table_name'=>'users']);
@@ -62,8 +62,8 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        echo 'edit';        exit();
-        $response = $this->getAPIresponseGuzzle("user/$id/edit");
+        
+        $response = $this->getAPIresponseGuzzle('post',"user/$id/edit");
         $res = json_decode($response->getBody()) ;        
         if($response->getStatusCode() == '200'){
             return $res ;

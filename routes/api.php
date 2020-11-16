@@ -18,6 +18,7 @@ use App\Http\Controllers\api\LoginControllerApi;
 */
 
 Route::middleware('auth:sanctum')->get('/users', [UserControllerApi::class,'index']);
+Route::middleware('auth:sanctum')->post('/user/{id}/edit', [UserControllerApi::class,'edit']);
 
 Route::middleware('auth:sanctum')->get('/admin', [LoginControllerApi::class,'index']);
 //Route::prefix('sanctum')->namespace('API')->group(function() {
