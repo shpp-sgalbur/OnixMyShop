@@ -26,9 +26,9 @@
                     <td>{{$user->email}}</td>
                     <td>{{$user->role_id}}</td>
                     <td>
-                        <form method="post" action="{{route('user_edit',['id'=>$user->id])}}">
-                            @csrf
-                            <input type="submit" class="btn btn-success" name="edit{{$user->id}}" value="edit">
+                        <form method="post" action="{{route('user_edit',['id'=>$user->id],false)}}">
+                            @method('POST')
+                            <input type="submit" class="btn btn-success" name="edit{{$user->id}}" value="{{$user->id}}">
                             <input type="submit" class="btn btn-danger" name="delete{{$user->id}}" value="delete">
                         </form>
                     </td>

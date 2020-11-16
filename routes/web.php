@@ -27,4 +27,4 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
 })->name('dashboard');
 Route::middleware('auth:sanctum')->get('/admin', [App\Http\Controllers\LoginController::class,'index'])->name('admin');
 Route::middleware('auth:sanctum')->get('/users', [UserController::class,'index'])->name('users');
-Route::middleware('auth:sanctum')->get('/user/{id}/edit', [UserController::class,'edit'])->name('user_edit');
+Route::middleware('auth:sanctum')->post('/user/{id}/edit', [UserController::class,'edit'])->name('user_edit');
