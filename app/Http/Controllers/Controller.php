@@ -62,29 +62,7 @@ protected function getAPIresponse($path) {
         
         
     }
-    public function getAPIresponseGuzzle($method, $route, Array $data_form = null){
-                 
-            $route = 'api/'.$route;   
-            
-            if(strtoupper($method)  == 'GET') return $this->getRequest($route, $this->client, $this->headers);
-            if(strtoupper($method)  == 'POST') return $this->postRequest($route, $this->client, $this->headers, $data_form);
-        }
-        
-        protected function getRequest($route, $client, $headers, $data_form = null) {
-            return $client->get($route,['headers' => $headers, 'form_params' => $data_form]);                
-        }
-        
-        public function postRequest($route, $client, $headers, $data_form) {
-            $route = 'api/'.$route; 
-            $r = $client->post($route,
-                    [
-                        'headers' => $headers,
-                        'form_params' => $data_form
-                    ]);
-                    exit($r->getBody());
-            return $r;
-        }
-
+   
 
         protected function getRoleName() {
             $role_id = Auth::user()->role_id;        

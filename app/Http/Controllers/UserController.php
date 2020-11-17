@@ -14,12 +14,19 @@ class UserController extends Controller
      */
     public function index()
     {
-        $response = $this->getAPIresponseGuzzle('get',"users");
+        $route = 'api/users'; 
+        $response = $this->client->get($route,
+                [
+                    'headers' => $this->headers,
+                    //'form_params' => $data_form
+                ]);
+                
+        
         $res = json_decode($response->getBody()) ;        
         if($response->getStatusCode() == '200'){
             return view('admin', ['route'=>'users', 'users'=>$res, 'table_name'=>'users', '_component'=>'users']);
         }
-        return "Что-то пошло не так";
+        return "Что-то пошло не так UserController";
     }
 
     /**
@@ -63,11 +70,19 @@ class UserController extends Controller
     public function edit($id)
     {
         
-        $response = $this->postRequest("user/$id/edit", $this->client, $this->headers,['id'=>$id]);
-        $res = json_decode($response->getBody()) ;  
-        var_dump($res);
+        $route = 'api/user/'.$id.'/edit'; 
+        $response = $this->client->post($route,
+                [
+                    'headers' => $this->headers,
+                    //'form_params' => $data_form
+                ]);
+                echo $response->getBody();
+        $res = json_decode($response->getBody());        
+        
         if($response->getStatusCode() == '200'){
-            return $res ;
+            return view('user_edit',['_component'=>'user_edit','res'=>$response]) ;
+        }else{
+            return 'Что-то пошло не так в UserController->public function edit($id)';
         }
     }
 

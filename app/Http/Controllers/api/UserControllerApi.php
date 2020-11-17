@@ -17,7 +17,6 @@ class UserControllerApi extends Controller
         if($this->getRoleName() == 'superAdmin'){
             $users = \App\Models\User::all();
             $res = json_encode($users);
-            
             return $res;
         }
         return 'Ytn ghfd ljcnegf';
@@ -68,7 +67,8 @@ class UserControllerApi extends Controller
         if($this->getRoleName() == 'superAdmin'){
             $user = \App\Models\User::find($id);
             $res = json_encode($user);
-            echo 'UserControllerApi function edit($id)'.$res; exit();
+            //echo 'UserControllerApi function edit($id)'.$res; exit();
+            return $res;
         }
     }
 
