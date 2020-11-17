@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
-    /**
+/**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
@@ -63,8 +63,9 @@ class UserController extends Controller
     public function edit($id)
     {
         
-        $response = $this->getAPIresponseGuzzle('post',"user/$id/edit");
-        $res = json_decode($response->getBody()) ;        
+        $response = $this->postRequest("user/$id/edit", $this->client, $this->headers,['id'=>$id]);
+        $res = json_decode($response->getBody()) ;  
+        var_dump($res);
         if($response->getStatusCode() == '200'){
             return $res ;
         }

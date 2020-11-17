@@ -15,6 +15,21 @@ require '../vendor/autoload.php';
 class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
+    protected $client ; 
+    protected $headers ;
+
+public function __construct(){
+    $this->client  = new Client([  
+                'base_uri' => env('APP_HOST'), 
+                'cookies' => true
+            ]);
+    $this->headers = [
+                "Accept" => "application/json",
+                'X-XSRF-TOKEN' => $_COOKIE['XSRF-TOKEN'],                           
+                "Referer" => "localhost",
+                'Cookie' => "XSRF-TOKEN=".$_COOKIE['XSRF-TOKEN']."; laravel_session=".$_COOKIE['laravel_session']
+            ];
+}
     
     
 protected function getAPIresponse($path) {
@@ -47,25 +62,30 @@ protected function getAPIresponse($path) {
         
         
     }
-    protected function getAPIresponseGuzzle($route){
-            $client = new Client([  
-                'base_uri' => env('APP_HOST'), 
-                'cookies' => true
-            ]);        
-              
-        $response = $client->request('get','api/'.$route, 
-                [
-                'headers' => [
-                                "Accept" => "application/json",
-                                'X-XSRF-TOKEN' => $_COOKIE['XSRF-TOKEN'],                           
-                                "Referer" => "localhost",
-                                'Cookie' => "XSRF-TOKEN=".$_COOKIE['XSRF-TOKEN']."; laravel_session=".$_COOKIE['laravel_session']
-                              ]
-               
-                ]);  
-                return $response;
+    public function getAPIresponseGuzzle($method, $route, Array $data_form = null){
+                 
+            $route = 'api/'.$route;   
+            
+            if(strtoupper($method)  == 'GET') return $this->getRequest($route, $this->client, $this->headers);
+            if(strtoupper($method)  == 'POST') return $this->postRequest($route, $this->client, $this->headers, $data_form);
         }
         
+        protected function getRequest($route, $client, $headers, $data_form = null) {
+            return $client->get($route,['headers' => $headers, 'form_params' => $data_form]);                
+        }
+        
+        public function postRequest($route, $client, $headers, $data_form) {
+            $route = 'api/'.$route; 
+            $r = $client->post($route,
+                    [
+                        'headers' => $headers,
+                        'form_params' => $data_form
+                    ]);
+                    exit($r->getBody());
+            return $r;
+        }
+
+
         protected function getRoleName() {
             $role_id = Auth::user()->role_id;        
             if($role_id){                

@@ -63,12 +63,12 @@ class UserControllerApi extends Controller
      */
     public function edit($id)
     {
-        echo 'function edit($id)'; exit();
+        
         
         if($this->getRoleName() == 'superAdmin'){
             $user = \App\Models\User::find($id);
             $res = json_encode($user);
-            echo 'function edit($id)'.$res; exit();
+            echo 'UserControllerApi function edit($id)'.$res; exit();
         }
     }
 
