@@ -17,7 +17,7 @@ class UserController extends Controller
         $response = $this->getAPIresponseGuzzle('get',"users");
         $res = json_decode($response->getBody()) ;        
         if($response->getStatusCode() == '200'){
-            return view('admin', ['route'=>'users', 'users'=>$res, 'table_name'=>'users']);
+            return view('admin', ['route'=>'users', 'users'=>$res, 'table_name'=>'users', '_component'=>'users']);
         }
         return "Что-то пошло не так";
     }
