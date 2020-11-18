@@ -2,9 +2,8 @@
 
 <div class="mt-8 text-2xl">
     <b>Users</b>
-        
-        
-    </div>
+</div>
+
 <div class="bg-gray-200 bg-opacity-25 grid grid-cols-1 md:grid-cols-2">
     
     
@@ -26,11 +25,17 @@
                     <td>{{$user->email}}</td>
                     <td>{{$user->role_id}}</td>
                     <td>
-                        <form method="post" action="{{route('user_edit',['id'=>$user->id],false)}}">
+                        <form method="post" action="{{route('user_edit',['id'=>$user->id],false)}}" id="edit">
                             @csrf
                             @method('POST')
-                            <input type="submit" class="btn btn-success" name="edit{{$user->id}}" value="{{$user->id}}">
-                            <input type="submit" class="btn btn-danger" name="delete{{$user->id}}" value="delete">
+                                                       
+                        </form>
+                        <input type="submit" class="btn btn-success" name="edit{{$user->id}}" value="edit" form="edit"> 
+                        <input type="submit" class="btn btn-danger" name="delete{{$user->id}}" value="delete" form="delete">
+                        <form method="post" action="{{route('user_delete',['id'=>$user->id],false)}}" id="delete">
+                            @csrf
+                            @method('DELETE')                            
+                            
                         </form>
                     </td>
                 </tr>
@@ -38,6 +43,4 @@
             @endforeach
         </tbody>
     </table>
-    
-    
 </div>

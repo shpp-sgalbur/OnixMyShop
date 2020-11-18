@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\ProductAdminController;
 use App\Http\Controllers\CategoryController;
 
 /*
@@ -29,4 +30,7 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
 Route::middleware('auth:sanctum')->get('/admin', [App\Http\Controllers\LoginController::class,'index'])->name('admin');
 Route::middleware('auth:sanctum')->get('/users', [UserController::class,'index'])->name('users');
 Route::middleware('auth:sanctum')->post('/user/{id}/edit', [UserController::class,'edit'])->name('user_edit');
+Route::middleware('auth:sanctum')->post('/user/{id}/update', [UserController::class,'update'])->name('user_update');
+Route::middleware('auth:sanctum')->delete('/user/{id}/delete', [UserController::class,'destroy'])->name('user_delete');
+
 Route::middleware('auth:sanctum')->put('/categories', [CategoryController::class,'index'])->name('categories');
