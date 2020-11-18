@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
+//use App\Models\User;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
@@ -56,7 +56,7 @@ class UserController extends Controller
      * @param  \App\Models\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function show(User $user)
+    public function show($id)
     {
         //
     }
@@ -71,16 +71,12 @@ class UserController extends Controller
     {
         
         $route = 'api/user/'.$id.'/edit'; 
-        $response = $this->client->post($route,
-                [
-                    'headers' => $this->headers,
-                    //'form_params' => $data_form
-                ]);
-                echo $response->getBody();
-        $res = json_decode($response->getBody());        
+        $response = $this->client->post($route,['headers' => $this->headers,]);
         
         if($response->getStatusCode() == '200'){
-            return view('user_edit',['_component'=>'user_edit','res'=>$response]) ;
+            $res = json_decode($response->getBody(),true);         
+            $val_arr = array_merge($res,['_component'=>'user_edit', 'route'=>$route]);
+            return view('admin',$val_arr) ;
         }else{
             return 'Что-то пошло не так в UserController->public function edit($id)';
         }
@@ -93,9 +89,30 @@ class UserController extends Controller
      * @param  \App\Models\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, User $user)
+    public function update(Request $request, $id)
     {
-        //
+        
+        $route = 'api/user/'.$id.'/update'; 
+        $response = $this->client->post($route,
+                [
+                    'headers' => $this->headers,
+                    'form_params' => 
+                    [
+                        'id'=>$_POST['id'],
+                        'email'=>$_POST['email'],
+                        'name'=>$_POST['name'],
+                        'phone'=>$_POST['phone'],
+                        'role_id'=>$_POST['role_id']
+                    ]
+                ]);
+                
+        if($response->getStatusCode() == '200'){
+            $res = json_decode($response->getBody(),true);         
+            $val_arr = array_merge($res,['_component'=>'user_show', 'route'=>$route]);
+            return view('admin',$val_arr) ;
+        }else{
+            return 'Что-то пошло не так в UserController->public function edit($id)';
+        }
     }
 
     /**
@@ -104,7 +121,7 @@ class UserController extends Controller
      * @param  \App\Models\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function destroy(User $user)
+    public function destroy($id)
     {
         //
     }

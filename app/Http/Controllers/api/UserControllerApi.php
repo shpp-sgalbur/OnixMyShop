@@ -4,6 +4,7 @@ namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\User;
 
 class UserControllerApi extends Controller
 {
@@ -62,7 +63,7 @@ class UserControllerApi extends Controller
      */
     public function edit($id)
     {
-        
+       
         
         if($this->getRoleName() == 'superAdmin'){
             $user = \App\Models\User::find($id);
@@ -81,7 +82,14 @@ class UserControllerApi extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $user = User::find($id);
+        $user->email = $request->email;
+        $user->name = $request->name;
+        $user->phone = $request->phone;
+        $user->role_id = $request->role_id;
+        $user->save();
+        return $user;
+        
     }
 
     /**
