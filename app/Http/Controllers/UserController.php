@@ -92,13 +92,14 @@ class UserController extends Controller
     public function update(Request $request, $id)
     {
         
+        
         $route = 'api/user/'.$id.'/update'; 
         $response = $this->client->post($route,
                 [
                     'headers' => $this->headers,
                     'form_params' => 
                     [
-                        'id'=>$_POST['id'],
+                        //'id'=>$_POST['id'],
                         'email'=>$_POST['email'],
                         'name'=>$_POST['name'],
                         'phone'=>$_POST['phone'],
@@ -111,7 +112,7 @@ class UserController extends Controller
             $val_arr = array_merge($res,['_component'=>'user_show', 'route'=>$route]);
             return view('admin',$val_arr) ;
         }else{
-            return 'Что-то пошло не так в UserController->public function edit($id)';
+            return 'Что-то пошло не так в UserController->public function update($id)-'.$response->getStatusCode();
         }
     }
 
@@ -123,6 +124,25 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        //
+        
+        $route = 'api/user/'.$id.'/delete'; 
+        $response = $this->client->delete($route,
+                [
+                    'headers' => $this->headers,
+                    'form_params' =>['id'=>$id]
+                ]);
+                
+        if($response->getStatusCode() == '200'){
+            $res = json_decode($response->getBody(),true); 
+            
+            $val_arr = array_merge($res,['_component'=>'user_delete', 'route'=>$route]);
+            //var_dump($val_arr);
+            
+            return view('admin',$val_arr) ;
+        }else{
+            return 'Что-то пошло не так в UserController->public function destroy($id)';
+        }
     }
+    
+    
 }

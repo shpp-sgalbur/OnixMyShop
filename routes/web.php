@@ -31,6 +31,10 @@ Route::middleware('auth:sanctum')->get('/admin', [App\Http\Controllers\LoginCont
 Route::middleware('auth:sanctum')->get('/users', [UserController::class,'index'])->name('users');
 Route::middleware('auth:sanctum')->post('/user/{id}/edit', [UserController::class,'edit'])->name('user_edit');
 Route::middleware('auth:sanctum')->post('/user/{id}/update', [UserController::class,'update'])->name('user_update');
-Route::middleware('auth:sanctum')->delete('/user/{id}/delete', [UserController::class,'destroy'])->name('user_delete');
+Route::middleware('auth:sanctum')->get('/user/{id}/delete', [UserController::class,'destroy'])->name('user_delete');
 
-Route::middleware('auth:sanctum')->put('/categories', [CategoryController::class,'index'])->name('categories');
+Route::middleware('auth:sanctum')->get('/categories', [CategoryController::class,'index'])->name('categories');
+Route::middleware('auth:sanctum')->get('/category/create', [CategoryController::class,'create'])->name('category_create');
+Route::middleware('auth:sanctum')->post('/category/store', [CategoryController::class,'store'])->name('category_store');
+Route::middleware('auth:sanctum')->post('/category/{id}/update', [CategoryController::class,'store'])->name('category_edit');
+Route::middleware('auth:sanctum')->post('/category/{id}/delete', [CategoryControllerApi::class,'destroy'])->name('category_delete');

@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\api\UserControllerApi;
+use App\Http\Controllers\api\CategoryControllerApi;
 use App\Http\Controllers\api\LoginControllerApi;
 use App\Http\Controllers\api\ProductAdminControllerApi;
 
@@ -22,6 +23,12 @@ Route::middleware('auth:sanctum')->get('/users', [UserControllerApi::class,'inde
 Route::middleware('auth:sanctum')->post('/user/{id}/edit', [UserControllerApi::class,'edit']);
 Route::middleware('auth:sanctum')->post('/user/{id}/update', [UserControllerApi::class,'update']);
 Route::middleware('auth:sanctum')->delete('/user/{id}/delete', [UserControllerApi::class,'destroy']);
+
+Route::middleware('auth:sanctum')->get('/categories', [CategoryControllerApi::class,'index']);
+Route::middleware('auth:sanctum')->get('/category/create', [CategoryControllerApi::class,'create']);
+Route::middleware('auth:sanctum')->post('/category/store', [CategoryControllerApi::class,'store']);
+Route::middleware('auth:sanctum')->post('/category/{id}/update', [CategoryControllerApi::class,'store']);
+Route::middleware('auth:sanctum')->post('/category/{id}/delete', [CategoryControllerApi::class,'destroy']);
 
 Route::middleware('auth:sanctum')->get('/admin', [LoginControllerApi::class,'index']);
 //Route::prefix('sanctum')->namespace('API')->group(function() {

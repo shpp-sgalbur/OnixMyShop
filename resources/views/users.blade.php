@@ -25,17 +25,18 @@
                     <td>{{$user->email}}</td>
                     <td>{{$user->role_id}}</td>
                     <td>
-                        <form method="post" action="{{route('user_edit',['id'=>$user->id],false)}}" id="edit">
+                        <form method="post" action="{{route('user_edit',['id'=>$user->id],false)}}">
                             @csrf
                             @method('POST')
-                                                       
-                        </form>
-                        <input type="submit" class="btn btn-success" name="edit{{$user->id}}" value="edit" form="edit"> 
-                        <input type="submit" class="btn btn-danger" name="delete{{$user->id}}" value="delete" form="delete">
-                        <form method="post" action="{{route('user_delete',['id'=>$user->id],false)}}" id="delete">
-                            @csrf
-                            @method('DELETE')                            
+                            <input type="submit" class="btn btn-success" name="edit{{$user->id}}" value="edit">
                             
+                        </form>
+                    </td>
+                    <td>
+                        <form method="get" action="{{route('user_delete',['id'=>$user->id],false)}}">
+                            @csrf
+                            @method('get')
+                            <input type="submit" class="btn btn-danger" name="delete{{$user->id}}" value="delete">
                         </form>
                     </td>
                 </tr>
@@ -43,4 +44,6 @@
             @endforeach
         </tbody>
     </table>
+    
+    
 </div>
