@@ -17,7 +17,7 @@
           </tr>
         </thead>
         <tbody>
-            @foreach($categories as $category)
+            @foreach($categories->data as $category)
                 
                 <tr>
                     <td>{{$category->id}}</td>
