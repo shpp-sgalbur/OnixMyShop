@@ -13,7 +13,7 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $route = 'api/categories'; 
+        $route = 'api/admin/categories'; 
         $response = $this->client->get($route,
                 [
                     'headers' => $this->headers,
@@ -21,10 +21,13 @@ class CategoryController extends Controller
                 ]);
                 
         
-        $res = json_decode($response->getBody()) ;       
+        $res = json_decode($response->getBody()) ;  
+        var_dump($res);
+        $res = $res->data;
+        //
         if($response->getStatusCode() == '200'){
-            if(isset($res['message'])) return $res['message'];
-            return view('admin', ['route'=>'categories', 'categories'=>$res, 'table_name'=>'categories', '_component'=>'categories']);
+            //if(isset($res['message'])) return $res['message'];
+            return view('admin', ['route'=>'admin_categories', 'categories'=>$res, 'table_name'=>'categories', '_component'=>'admin_categories']);
         }
         return "Что-то пошло не так UserController";
     }
@@ -59,26 +62,30 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
+        
         $route = '/category/store'; 
         $response = $this->client->post('api'.$route,
                 [
                     'headers' => $this->headers,
-                    'form_params' => 
-                    [
-                        //'id'=>$_POST['id'],
-                        
-                        'name'=>$_POST['name'],
-                        'slug'=>$_POST['slug'],
-                        'parent_id'=>$_POST['parent_id']
-                    ]
+                    'form_params' => $request->input()
+//                    [
+//                        //'id'=>$_POST['id'],
+//                        
+//                        'name'=>$_POST['name'],
+//                        'slug'=>$_POST['slug'],
+//                        'parent_id'=>$_POST['parent_id']
+//                    ]
                 ]);
-        $res = json_decode($response->getBody()) ;   
-        if($response->getStatusCode() == '201'){
+        
+        $res = json_decode($response->getBody()) ;          
+        if(!$res) $res = array();
+        dd($res);
+        if($response->getStatusCode() == '200'){
             $res = json_decode($response->getBody(),true);         
             $val_arr = array_merge($res,['_component'=>'categories', 'route'=>$route]);
             return view('admin',$val_arr) ;
         }else{
-            return 'Что-то пошло не так в UserController->public function store($id) code'.$response->getStatusCode() ;
+            return 'Что-то пошло не так в CategoryController->public function store($id) code'.$response->getStatusCode() ;
         }
     }
 
