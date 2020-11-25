@@ -21,15 +21,11 @@ class CategoryController extends Controller
                 ]);
                 
         
-        $res = json_decode($response->getBody()) ;  
-        var_dump($res);
-        $res = $res->data;
-        //
-        if($response->getStatusCode() == '200'){
-            //if(isset($res['message'])) return $res['message'];
-            return view('admin', ['route'=>'admin_categories', 'categories'=>$res, 'table_name'=>'categories', '_component'=>'admin_categories']);
-        }
-        return "Что-то пошло не так UserController";
+        $res = json_decode($response->getBody()) ;        
+        $res = $this->paginateAPI($res);        
+        if($response->getStatusCode() == '200'){            
+            return view('admin', ['route'=>'admin_categories', 'res'=>$res, 'table_name'=>'categories', '_component'=>'admin_categories']);        }
+        return "Something went wrong in UserController";
     }
 
     /**
@@ -39,19 +35,7 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        $route = '/category/create'; 
-        $response = $this->client->get('api'.$route,
-                [
-                    'headers' => $this->headers,
-                    //'form_params' => $data_form
-                ]);                
-        
-        $res = json_decode($response->getBody()) ;    // dd($res);  
-        if($response->getStatusCode() == '200'){
-            if(isset($res['message'])) return $res['message'];
-            return view('admin', ['route'=>$route, 'category'=>$res, 'table_name'=>'categories', '_component'=>'category_create']);
-        }
-        return "Что-то пошло не так CategoryController create code-".$response->getStatusCode() ;
+        return view('admin',['route'=>'admin_category_create', '_component'=>'category_create']);
     }
 
     /**
@@ -68,24 +52,17 @@ class CategoryController extends Controller
                 [
                     'headers' => $this->headers,
                     'form_params' => $request->input()
-//                    [
-//                        //'id'=>$_POST['id'],
-//                        
-//                        'name'=>$_POST['name'],
-//                        'slug'=>$_POST['slug'],
-//                        'parent_id'=>$_POST['parent_id']
-//                    ]
+
                 ]);
         
         $res = json_decode($response->getBody()) ;          
-        if(!$res) $res = array();
-        dd($res);
+        
+        
         if($response->getStatusCode() == '200'){
-            $res = json_decode($response->getBody(),true);         
-            $val_arr = array_merge($res,['_component'=>'categories', 'route'=>$route]);
-            return view('admin',$val_arr) ;
+            
+            return redirect()->route('admin_categories');
         }else{
-            return 'Что-то пошло не так в CategoryController->public function store($id) code'.$response->getStatusCode() ;
+            return 'Something went wrong in CategoryController->public function store($id) code'.$response->getStatusCode() ;
         }
     }
 
@@ -97,7 +74,17 @@ class CategoryController extends Controller
      */
     public function show($id)
     {
-        //
+        $route = '/category/$id/show'; 
+        $response = $this->client->get('api'.$route,
+                [
+                    'headers' => $this->headers,
+                    'form_params' => $request->input()
+
+                ]);
+        
+        $res = json_decode($response->getBody()) ; 
+        var_dump($res);
+        exit();
     }
 
     /**

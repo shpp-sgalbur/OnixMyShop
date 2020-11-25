@@ -26,7 +26,7 @@ class UserController extends Controller
         if($response->getStatusCode() == '200'){
             return view('admin', ['route'=>'users', 'users'=>$res, 'table_name'=>'users', '_component'=>'users']);
         }
-        return "Что-то пошло не так UserController";
+        return "Something went wrong in UserController";
     }
 
     /**
@@ -78,7 +78,7 @@ class UserController extends Controller
             $val_arr = array_merge($res,['_component'=>'user_edit', 'route'=>$route]);
             return view('admin',$val_arr) ;
         }else{
-            return 'Что-то пошло не так в UserController->public function edit($id)';
+            return 'Something went wrong in UserController->public function edit($id)';
         }
     }
 
@@ -97,14 +97,8 @@ class UserController extends Controller
         $response = $this->client->post($route,
                 [
                     'headers' => $this->headers,
-                    'form_params' => 
-                    [
-                        //'id'=>$_POST['id'],
-                        'email'=>$_POST['email'],
-                        'name'=>$_POST['name'],
-                        'phone'=>$_POST['phone'],
-                        'role_id'=>$_POST['role_id']
-                    ]
+                    'form_params' => $request->input()
+          
                 ]);
                 
         if($response->getStatusCode() == '200'){
@@ -112,7 +106,7 @@ class UserController extends Controller
             $val_arr = array_merge($res,['_component'=>'user_show', 'route'=>$route]);
             return view('admin',$val_arr) ;
         }else{
-            return 'Что-то пошло не так в UserController->public function update($id)-'.$response->getStatusCode();
+            return 'Something went wrong in UserController->public function update($id)-'.$response->getStatusCode();
         }
     }
 
@@ -133,14 +127,11 @@ class UserController extends Controller
                 ]);
                 
         if($response->getStatusCode() == '200'){
-            $res = json_decode($response->getBody(),true); 
-            
-            $val_arr = array_merge($res,['_component'=>'user_delete', 'route'=>$route]);
-            //var_dump($val_arr);
-            
+            $res = json_decode($response->getBody(),true);             
+            $val_arr = array_merge($res,['_component'=>'user_delete', 'route'=>$route]);            
             return view('admin',$val_arr) ;
         }else{
-            return 'Что-то пошло не так в UserController->public function destroy($id)';
+            return 'Something went wrong in UserController->public function destroy($id)';
         }
     }
     

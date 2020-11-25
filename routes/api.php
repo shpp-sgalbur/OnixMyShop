@@ -18,24 +18,27 @@ use App\Http\Controllers\api\ProductAdminControllerApi;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+Route::middleware('auth:sanctum')->group(function (){
+    Route::get('/users', [UserControllerApi::class,'index']);
+    Route::post('/user/{id}/edit', [UserControllerApi::class,'edit']);
+    Route::post('/user/{id}/update', [UserControllerApi::class,'update']);
+    Route::delete('/user/{id}/delete', [UserControllerApi::class,'destroy']);
 
-Route::middleware('auth:sanctum')->get('/users', [UserControllerApi::class,'index']);
-Route::middleware('auth:sanctum')->post('/user/{id}/edit', [UserControllerApi::class,'edit']);
-Route::middleware('auth:sanctum')->post('/user/{id}/update', [UserControllerApi::class,'update']);
-Route::middleware('auth:sanctum')->delete('/user/{id}/delete', [UserControllerApi::class,'destroy']);
+    Route::get('/admin/categories', [CategoryControllerApi::class,'index']);
+    Route::get('/category/create', [CategoryControllerApi::class,'create']);
+    Route::post('/category/store', [CategoryControllerApi::class,'store']);
+    Route::post('/category/{id}/update', [CategoryControllerApi::class,'store']);
+    Route::get('/category/{id}/delete', [CategoryControllerApi::class,'destroy']);
+    Route::post('/category/{id}/show', [CategoryControllerApi::class,'show']);
 
-Route::middleware('auth:sanctum')->get('/categories', [CategoryControllerApi::class,'index']);
-Route::middleware('auth:sanctum')->get('/category/create', [CategoryControllerApi::class,'create']);
-Route::middleware('auth:sanctum')->post('/category/store', [CategoryControllerApi::class,'store']);
-Route::middleware('auth:sanctum')->post('/category/{id}/update', [CategoryControllerApi::class,'store']);
-Route::middleware('auth:sanctum')->post('/category/{id}/delete', [CategoryControllerApi::class,'destroy']);
+    Route::get('/products', [\App\Http\Controllers\api\ProductControllerApi::class,'index']);
+    Route::get('/product/create', [\App\Http\Controllers\api\ProductControllerApi::class,'create']);
+    Route::get('/product/store', [\App\Http\Controllers\api\ProductControllerApi::class,'store']);
+    Route::get('/product/{product}/update', [\App\Http\Controllers\api\ProductControllerApi::class,'update']);
+    Route::get('/products/{product}/delete', [\App\Http\Controllers\api\ProductControllerApi::class,'destroy']);
+    Route::get('/products/show', [\App\Http\Controllers\api\ProductControllerApi::class,'show']);
 
-Route::middleware('auth:sanctum')->get('/admin', [LoginControllerApi::class,'index']);
-//Route::prefix('sanctum')->namespace('API')->group(function() {
-//    Route::post('register',[LoginController::class,'register']);
-//    Route::post('login',[LoginController::class,'register']);
-//    Route::post('token', [LoginController::class,'token']);
-//});
-Route::middleware('auth:sanctum')->get('/name', function (Request $request) {
-    return response()->json(['name' => $request->user()->name]);
+    Route::get('/admin', [LoginControllerApi::class,'index']);
 });
+
+

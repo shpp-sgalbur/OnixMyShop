@@ -3,10 +3,10 @@
 namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
+use App\Models\Product;
 use Illuminate\Http\Request;
-use App\Models\User;
 
-class UserControllerApi extends Controller
+class ProductControllerApi extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,12 +15,7 @@ class UserControllerApi extends Controller
      */
     public function index()
     {
-        if($this->getRoleName() == 'superAdmin'){
-            $users = \App\Models\User::all();
-            $res = json_encode($users);
-            return $res;
-        }
-        return '{"message":"Необходимио иметь права доступа"}';
+        //
     }
 
     /**
@@ -47,10 +42,10 @@ class UserControllerApi extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\Models\Product  $product
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Product $product)
     {
         //
     }
@@ -58,50 +53,34 @@ class UserControllerApi extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\Models\Product  $product
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Product $product)
     {
-       
-        
-        if($this->getRoleName() == 'superAdmin'){
-            $user = \App\Models\User::find($id);
-            $res = json_encode($user);
-            //echo 'UserControllerApi function edit($id)'.$res; exit();
-            return $res;
-        }
+        //
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \App\Models\Product  $product
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Product $product)
     {
-        $user = User::find($id);
-        $user->email = $request->email;
-        $user->name = $request->name;
-        $user->phone = $request->phone;
-        $user->role_id = $request->role_id;
-        $user->save();
-        return $user;
-        
+        //
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  \App\Models\Product  $product
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Product $product)
     {
-        $user = User::find($id);
-        $user->delete();
-        return $user;
+        //
     }
 }

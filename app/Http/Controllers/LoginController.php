@@ -9,14 +9,14 @@ use Illuminate\Support\Facades\DB;
 
 class LoginController extends Controller
 {
-    public function index(){     
-         $route ='/api/admin';
-        //$response = $this->getAPIresponseGuzzle('get',"admin");
+    public function index(){  
+        
+        $route ='/api/admin';        
         $response = $this->client->get($route,['headers' => $this->headers]); 
         $res = json_decode($response->getBody()) ;
         $res = isset($res->is_admin) ? $res->is_admin : null;
-        if($res){
-            
+        
+        if($res){            
             return view('admin', ['route' =>'admin','table_name'=>'Администрирование']);
         }
         return 'У вас нет прав доступа (LoginController)';

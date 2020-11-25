@@ -3,10 +3,12 @@
 namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
+use App\Models\Category;
 use Illuminate\Http\Request;
-use App\Models\User;
+use Illuminate\Support\Facades\DB;
 
-class UserControllerApi extends Controller
+
+class CategoryControllerApi extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,8 +17,9 @@ class UserControllerApi extends Controller
      */
     public function index()
     {
-        if($this->getRoleName() == 'superAdmin'){
-            $users = \App\Models\User::all();
+        
+        if($this->getRoleName() == 'superAdmin'){            
+            return DB::table('categories')->skip(3)->take(3)->paginate(3);
             $res = json_encode($users);
             return $res;
         }
@@ -39,69 +42,56 @@ class UserControllerApi extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, Category $category)
     {
-        //
+        $category->name = $request->name;
+        $category->slug = $request->slug;
+        $category->parent_id = $request->parent_id;
+        $category->save();
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\Models\Category  $category
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Category $category)
     {
-        //
+        return $category;
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\Models\Category  $category
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Category $category)
     {
-       
-        
-        if($this->getRoleName() == 'superAdmin'){
-            $user = \App\Models\User::find($id);
-            $res = json_encode($user);
-            //echo 'UserControllerApi function edit($id)'.$res; exit();
-            return $res;
-        }
+        //
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \App\Models\Category  $category
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Category $category)
     {
-        $user = User::find($id);
-        $user->email = $request->email;
-        $user->name = $request->name;
-        $user->phone = $request->phone;
-        $user->role_id = $request->role_id;
-        $user->save();
-        return $user;
-        
+        //
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  \App\Models\Category  $category
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Category $category)
     {
-        $user = User::find($id);
-        $user->delete();
-        return $user;
+        $category->delete();
     }
 }

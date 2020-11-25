@@ -25,7 +25,7 @@ public function __construct(){
                     'cookies' => true
                 ]);
         $_COOKIE['XSRF-TOKEN'] = isset($_COOKIE['XSRF-TOKEN'])? $_COOKIE['XSRF-TOKEN'] : '';
-         $_COOKIE['laravel_session'] = isset( $_COOKIE['laravel_session']) ?  $_COOKIE['laravel_session'] : '';
+        $_COOKIE['laravel_session'] = isset( $_COOKIE['laravel_session']) ?  $_COOKIE['laravel_session'] : '';
         $this->headers = [
                 "Accept" => "application/json",
                 'X-XSRF-TOKEN' => $_COOKIE['XSRF-TOKEN'],                           
@@ -76,5 +76,23 @@ public function __construct(){
                 } 
                 return '';
 
+        }
+        /*
+         * 
+         */
+        protected function paginateAPI($param) {
+            if($param->current_page == 1){
+                $param->first_disable = 'disable';
+            }
+            else{
+                $param->first_disable = '';
+                if($param->current_page == $param->last_page){
+                    $param->last_disable = 'disable';
+                }
+                else{
+                    $param->last_disable = '';
+                }
+            }
+            return $param;
         }
 }

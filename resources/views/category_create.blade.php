@@ -2,7 +2,7 @@
 <div>
     <div class="mt-8 ml-12 text-2xl mx-auto text-center">
      
-      <b>Create categiry</b><br>
+      <b>Create category</b><br>
     
 </div>
 </div>
@@ -11,7 +11,7 @@
 <div class="bg-gray-200 bg-opacity-25 grid grid-cols-1 md:grid-cols-2">
     
     
-    <form class="mx-auto" action="/category/store" method='post'>
+    <form class="mx-auto" action="{{route('admin_category_store',false)}}" method='post'>
         @csrf
         @method('POST')
         
@@ -30,7 +30,7 @@
         </div>
         <input type="submit" class=" btn btn-primary" name="edit" value="Save">
         
-        <a href="{{route('categories')}}" class="btn btn-outline-primary">
+        <a href="{{route('admin')}}" class="btn btn-outline-primary">
             <input class="btn btn-outline-primary" name="cancel" value="Cancel">
         </a>
         
